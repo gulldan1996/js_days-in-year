@@ -3,21 +3,22 @@
 function daysInYear(year) {
   try {
     if (!Number.isInteger(year) || !Number(year) > 0){
-      throw new Error();
+      throw new Error('exception');
     }
-    console.log(daysOnLeapYear(year) ? 366 : 365);
+
+    const firstDay = new Date(year, 0, 1);
+    const lastDay = new Date(year, 11, 31, 23, 59, 59);
+    const msInDay = 1000 * 60 * 60 * 24;
+    const msInYear = lastDay - firstDay;
+    return Math.ceil(msInYear / msInDay);
   } catch (error) {
-      console.log('exception');
+      return error.message;
     }
 }
 
-function daysOnLeapYear(year) {
-  return year % 400 === 0 || (year % 100 !== 0 && year % 4 === 0);
-}
-
-daysInYear(2019); // 365
-daysInYear('2019'); // exception
-daysInYear(2020); // 366
-daysInYear(2020.2); // exception
-daysInYear(2100); // 365
-daysInYear({year: 2100}); // exception
+console.log(daysInYear(2019)); // 365
+console.log(daysInYear('2019')); // exception
+console.log(daysInYear(2020)); // 366
+console.log(daysInYear(2020.2)); // exception
+console.log(daysInYear(2100)); // 365
+console.log(daysInYear({year: 2100})); // exception
